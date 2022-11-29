@@ -1,0 +1,29 @@
+server:
+  port: 9171
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/app-users**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTH-SERVICE
+                fallbackuri: forward:/authServiceFallBack
+        - id: CART-SERVICE
+          uri: lb://CART-SERVICE
+          predicates:
+            - Path=/api/carts**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: CART-SERVICE
+                fallbackuri: forward:/cartServiceFallBack
+
+
