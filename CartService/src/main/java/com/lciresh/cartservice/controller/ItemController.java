@@ -4,10 +4,9 @@ import com.lciresh.cartservice.model.Item;
 import com.lciresh.cartservice.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/items")
@@ -17,6 +16,11 @@ public class ItemController {
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
+    }
+
+    @GetMapping("/all-items")
+    public ResponseEntity<List<Item>> getItems() {
+        return new ResponseEntity<>(itemService.getItems(), HttpStatus.OK);
     }
 
     @PostMapping("/create")

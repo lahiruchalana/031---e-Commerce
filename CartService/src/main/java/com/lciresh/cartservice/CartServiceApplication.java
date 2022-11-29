@@ -7,9 +7,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @EnableEurekaClient
-@ComponentScan("com.lciresh.cartservice.repository")
+//@ComponentScan("com.lciresh.cartservice.repository")
 public class CartServiceApplication {
 
     public static void main(String[] args) {

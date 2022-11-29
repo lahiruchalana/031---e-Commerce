@@ -5,6 +5,8 @@ import com.lciresh.cartservice.repository.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ItemService implements ItemServiceInterface{
@@ -19,5 +21,10 @@ public class ItemService implements ItemServiceInterface{
     public Item createNewItem(Item item) {
         itemRepository.save(item);
         return item;
+    }
+
+    @Override
+    public List<Item> getItems() {
+        return itemRepository.findAll();
     }
 }
