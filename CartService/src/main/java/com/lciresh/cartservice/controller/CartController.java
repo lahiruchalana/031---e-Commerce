@@ -1,6 +1,5 @@
 package com.lciresh.cartservice.controller;
 
-import com.lciresh.cartservice.dto.UserItemDTO;
 import com.lciresh.cartservice.model.Cart;
 import com.lciresh.cartservice.service.CartService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,18 +28,33 @@ public class CartController {
         return new ResponseEntity<>(cartService.createNewCart(token), HttpStatus.CREATED);
     }
 
-    @PostMapping("/item-add-to-cart")
+    @PostMapping("/items/{itemId}/item-add-to-cart")
     public ResponseEntity<Cart> addItemToCart(
-            @RequestBody UserItemDTO userItemDTO
+            @PathVariable("itemId") Long itemId,
+            HttpServletRequest request
     ) {
-        return new ResponseEntity<>(cartService.addItemToCart(userItemDTO.getItemId(), userItemDTO.getUsername()), HttpStatus.CREATED);
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        String token = authorizationHeader.substring("Bearer ".length());
+        return new ResponseEntity<>(cartService.addItemToCart(itemId, token), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/item-remove-from-cart")
+    @DeleteMapping("/items/{itemId}/item-remove-from-cart")
     public ResponseEntity<Cart> removeItemFromCart(
-            @RequestBody UserItemDTO userItemDTO
+            @PathVariable("itemId") Long itemId,
+            HttpServletRequest request
     ) {
-        return new ResponseEntity<>(cartService.removeItemFromCart(userItemDTO.getItemId(), userItemDTO.getUsername()), HttpStatus.NO_CONTENT);
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        String token = authorizationHeader.substring("Bearer ".length());
+        return new ResponseEntity<>(cartService.removeItemFromCart(itemId, token), HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Cart> getCart(
+            HttpServletRequest request
+    ) {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        String token = authorizationHeader.substring("Bearer ".length());
+        return new ResponseEntity<>(cartService.getCart(token), HttpStatus.OK);
     }
 
 

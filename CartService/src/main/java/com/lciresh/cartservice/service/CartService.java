@@ -51,7 +51,10 @@ public class CartService implements CartServiceInterface{
     }
 
     @Override
-    public Cart addItemToCart(Long itemId, String username) {
+    public Cart addItemToCart(Long itemId, String token) {
+        UserAuthDTO userAuth = restTemplate.getForObject("http://AUTH-SERVICE/api/app-users/user/"+token+"/get-username-and-roles", UserAuthDTO.class);
+        String username = userAuth.getUsername();
+
         Optional<Cart> cartOptional = cartRepository.getCartByUsername(username);
         if (cartOptional.isEmpty()) {
             throw new NoDataAvailableException("User does not exist a Cart.");
@@ -65,7 +68,10 @@ public class CartService implements CartServiceInterface{
     }
 
     @Override
-    public Cart removeItemFromCart(Long itemId, String username) {
+    public Cart removeItemFromCart(Long itemId, String token) {
+        UserAuthDTO userAuth = restTemplate.getForObject("http://AUTH-SERVICE/api/app-users/user/"+token+"/get-username-and-roles", UserAuthDTO.class);
+        String username = userAuth.getUsername();
+
         Optional<Cart> cartOptional = cartRepository.getCartByUsername(username);
         if (cartOptional.isEmpty()) {
             throw new NoDataAvailableException("User does not exist a Cart.");
@@ -76,5 +82,18 @@ public class CartService implements CartServiceInterface{
 
         cart.getItems().remove(item);
         return cart;
+    }
+
+    @Override
+    public Cart getCart(String token) {
+        UserAuthDTO userAuth = restTemplate.getForObject("http://AUTH-SERVICE/api/app-users/user/"+token+"/get-username-and-roles", UserAuthDTO.class);
+        String username = userAuth.getUsername();
+
+        Optional<Cart> cartOptional = cartRepository.getCartByUsername(username);
+        if (cartOptional.isEmpty()) {
+            throw new NoDataAvailableException("User does not exist a Cart.");
+        }
+
+        return cartRepository.findCartByUsername(username);
     }
 }
