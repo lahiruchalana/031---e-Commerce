@@ -1,6 +1,5 @@
 package com.lciresh.cartservice.controller;
 
-import com.lciresh.cartservice.dto.UserItemDTO;
 import com.lciresh.cartservice.model.Cart;
 import com.lciresh.cartservice.service.CartService;
 import jakarta.servlet.http.HttpServletRequest;

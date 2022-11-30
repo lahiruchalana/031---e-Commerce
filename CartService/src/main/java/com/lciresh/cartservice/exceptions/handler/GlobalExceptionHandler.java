@@ -1,6 +1,7 @@
 package com.lciresh.cartservice.exceptions.handler;
 
 import com.lciresh.cartservice.exceptions.DataExistingException;
+import com.lciresh.cartservice.exceptions.IllegalPermissionException;
 import com.lciresh.cartservice.exceptions.InvalidInputException;
 import com.lciresh.cartservice.exceptions.NoDataAvailableException;
 import com.lciresh.cartservice.exceptions.model.CommonExceptionModel;
@@ -28,6 +29,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<Object> handleInvalidInputException(InvalidInputException e) {
+        CommonExceptionModel commonExceptionModel = new CommonExceptionModel(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), "data.invalid-input");
+
+        return new ResponseEntity<>(commonExceptionModel, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IllegalPermissionException.class)
+    public ResponseEntity<Object> handleIllegalPermissionException(IllegalPermissionException e) {
         CommonExceptionModel commonExceptionModel = new CommonExceptionModel(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), "data.invalid-input");
 
         return new ResponseEntity<>(commonExceptionModel, HttpStatus.INTERNAL_SERVER_ERROR);
