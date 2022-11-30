@@ -10,4 +10,5 @@ public interface CartServiceInterface {
 
     Cart removeItemFromCart(Long itemId, String username);
 
+    Cart getCart(String token);
 }
